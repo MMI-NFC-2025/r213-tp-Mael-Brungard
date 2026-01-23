@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Product from "../components/Product.astro";
+import Card from "../components/OffreCard.astro";
 const offres = [
     {
         adresse: "2821 Lake Sevilla, Palm Harbor, TX",
@@ -40,8 +41,19 @@ const offres = [
 
 <Layout titre="Offres">
     <h1 class="text-2xl font-bold text-center p-5">Offres</h1>
-    <ul>
-        {offres.map((offre) => <li>{offre.nomMaison}</li>)}
+    <button
+        id="favori-button"
+        class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer"
+        >Afficher les favoris</button
+    >
+    <ul class="flex flex-col items-center gap-10 p-10">
+        {
+            offres.map((offre) => (
+                <li>
+                    <Card offre={offre} />
+                </li>
+            ))
+        }
     </ul>
     <div class="flex-col flex justify-center gap-4 items-center">
         <ul class="flex justify-center gap-4 items-center p-5">
@@ -107,4 +119,36 @@ const offres = [
             contribuant positivement à la société.
         </p>
     </div>
+    <script>
+        const button = document.getElementById("favori-button");
+        let showOnlyFavorites = false;
+
+        button?.addEventListener("click", () => {
+            showOnlyFavorites = !showOnlyFavorites;
+            const offres = document.querySelectorAll(".offre");
+
+            offres.forEach((offre) => {
+                const isFavori = offre.dataset.favori === "true";
+
+                if (showOnlyFavorites) {
+                    offre.style.display = isFavori ? "block" : "none";
+                    button.textContent = "Afficher tout";
+                } else {
+                    offre.style.display = "block";
+                    button.textContent = "Afficher les favoris";
+                }
+            });
+        });
+
+        const checkbox = document.querySelectorAll(".checkbox");
+        checkbox.forEach((check) => {
+            check.addEventListener("change", () => {
+                const id = check.dataset.id;
+                const div = document.getElementById(`${id}`);
+                const status = check.checked;
+                div.classList.add(status ? "bg-amber-500" : "bg-indigo-950");
+                div.classList.remove(status ? "bg-indigo-950" : "bg-amber-500");
+            });
+        });
+    </script>
 </Layout>

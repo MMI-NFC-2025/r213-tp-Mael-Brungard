@@ -1,0 +1,27 @@
+---
+const { offre } = Astro.props;
+---
+
+<div
+    class=`offre ${offre.favori ? 'bg-amber-500' : 'bg-indigo-950' } p-5 flex flex-col gap-2 text-white rounded-xl`
+    data-favori={offre.favori.toString()}
+    id={offre.id}
+>
+    <div>
+        <h2 class="text-2xl">{offre.nomMaison}</h2>
+        <p class="font-bold">{offre.adresse}</p>
+    </div>
+    <div class="">
+        <p>Nombre de chambre : {offre.nbChambres}</p>
+        <p>Nombre de Salle de bain : {offre.nbSdb}</p>
+    </div>
+    <div class="flex items-center gap-2">
+        <input
+            type="checkbox"
+            class="checkbox h-4 w-4"
+            checked={offre.favori}
+            data-id={offre.id}
+        />
+        <p class="font-bold">Favoris</p>
+    </div>
+</div>
