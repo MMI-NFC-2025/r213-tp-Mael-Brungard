@@ -16,7 +16,12 @@ import PbImage from "./PbImage.astro";
         <p>Nombre de chambre : {offre.nbChambres}</p>
         <p>Nombre de Salle de bain : {offre.nbSdb}</p>
     </div> -->
-    <PbImage record={offre} imageField={offre.images[0]} />
+    <PbImage
+        record={offre}
+        imageField={offre.images[0]}
+        width={500}
+        height={300}
+    />
     <!-- <div class="flex items-center gap-2">
         <input
             type="checkbox"

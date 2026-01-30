@@ -2,7 +2,12 @@
 import { getImageUrl } from "../js/backend.mjs";
 import { Image } from "astro:assets";
 
-const { record, imageField } = Astro.props;
+const {
+    record,
+    imageField,
+    width = 400, // valeur par défaut
+    height = 300, // valeur par défaut
+} = Astro.props;
 
 const imageURL = await getImageUrl(record, imageField);
 ---
@@ -13,6 +18,9 @@ const imageURL = await getImageUrl(record, imageField);
             src={imageURL}
             alt={record.nomMaison || "Image"}
             inferSize={true}
+            width={width}
+            height={height}
+            class="object-cover h-100 object-center"
         />
     )
 }
