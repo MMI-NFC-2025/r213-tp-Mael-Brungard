@@ -1,5 +1,6 @@
 ---
 const { offre } = Astro.props;
+import PbImage from "./PbImage.astro";
 ---
 
 <div
@@ -9,13 +10,14 @@ const { offre } = Astro.props;
 >
     <div>
         <h2 class="text-2xl">{offre.nomMaison}</h2>
-        <p class="font-bold">{offre.adresse}</p>
+        <!-- <p class="font-bold">{offre.adresse}</p> -->
     </div>
-    <div class="">
+    <!-- <div class="">
         <p>Nombre de chambre : {offre.nbChambres}</p>
         <p>Nombre de Salle de bain : {offre.nbSdb}</p>
-    </div>
-    <div class="flex items-center gap-2">
+    </div> -->
+    <PbImage record={offre} imageField={offre.images[0]} />
+    <!-- <div class="flex items-center gap-2">
         <input
             type="checkbox"
             class="checkbox h-4 w-4"
@@ -23,5 +25,5 @@ const { offre } = Astro.props;
             data-id={offre.id}
         />
         <p class="font-bold">Favoris</p>
-    </div>
+    </div> -->
 </div>
