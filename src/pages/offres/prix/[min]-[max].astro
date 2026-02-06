@@ -1,14 +1,14 @@
 ---
-import { bySurface } from "../../../js/backend.mjs";
+import { byPriceBtwn } from "../../../js/backend.mjs";
 import Layout from "../../../layouts/Layout.astro";
 import Card from "../../../components/OffreCard.astro";
-const { surface } = Astro.params;
-const offres = await bySurface(surface);
+const { min, max } = Astro.params;
+const offres = await byPriceBtwn(min, max);
 ---
 
-<Layout titre=`Surface - ${surface}`>
+<Layout titre=`prix - ${min}/${max}`>
     <h1 class="text-center text-2xl mt-10 font-bold">
-        Maison de plus de {surface}m²
+        Maison entre {min}€ et {max}€
     </h1>
     <ul
         class="flex flex-wrap justify-center items-start items-center gap-10 p-10"

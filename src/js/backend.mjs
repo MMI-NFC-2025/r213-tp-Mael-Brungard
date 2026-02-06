@@ -29,6 +29,16 @@ export async function bySurface(surface) {
     return records;
 }
 
+export async function byPrice(prix) {
+    const records = await db.collection('maison').getFullList({ filter: `prix < ${prix}` });
+    return records;
+}
+
+export async function byPriceBtwn(min, max) {
+    const records = await db.collection('maison').getFullList({ filter: `prix < ${max} && prix > ${min}` });
+    return records;
+}
+
 export async function getImageUrl(record, recordImage) {
     return db.files.getURL(record, recordImage);
 }
