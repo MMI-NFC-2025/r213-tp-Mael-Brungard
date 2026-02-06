@@ -1,0 +1,21 @@
+---
+import { bySurface } from "../../../js/backend.mjs";
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/OffreCard.astro";
+const { surface } = Astro.params;
+const offres = await bySurface(surface);
+---
+
+<Layout titre=`Surface - ${surface}`>
+    <ul
+        class="flex flex-wrap justify-center items-start items-center gap-10 p-10"
+    >
+        {
+            offres.map((offre) => (
+                <li>
+                    <Card offre={offre} />
+                </li>
+            ))
+        }
+    </ul>
+</Layout>

@@ -24,6 +24,11 @@ export async function getOffre(id) {
     }
 }
 
+export async function bySurface(surface) {
+    const records = await db.collection('maison').getFullList({ filter: `surface > ${surface}` });
+    return records;
+}
+
 export async function getImageUrl(record, recordImage) {
     return db.files.getURL(record, recordImage);
 }

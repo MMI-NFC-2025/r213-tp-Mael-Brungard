@@ -8,12 +8,39 @@ console.log(id);
 ---
 
 <Layout titre={offre.nomMaison}>
-    <h2>{offre.nomMaison}</h2>
-    <ul>
-        <li>{offre.adresse}</li>
-    </ul>
-    <div class="">
-        <p>Nombre de chambre : {offre.nbChambres}</p>
-        <p>Nombre de Salle de bain : {offre.nbSdb}</p>
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-6 space-y-6">
+        <h2 class="text-3xl font-bold text-gray-800">
+            {offre.nomMaison}
+        </h2>
+
+        <ul class="text-gray-500">
+            <li class="flex items-center gap-2">
+                {offre.adresse}
+            </li>
+        </ul>
+
+        <div class="grid grid-cols-2 gap-4 text-gray-700">
+            <div class="bg-gray-100 rounded-xl p-4">
+                <p class="text-sm text-gray-500">Chambres</p>
+                <p class="text-xl font-semibold">{offre.nbChambres}</p>
+            </div>
+
+            <div class="bg-gray-100 rounded-xl p-4">
+                <p class="text-sm text-gray-500">Salles de bain</p>
+                <p class="text-xl font-semibold">{offre.nbSdb}</p>
+            </div>
+
+            <div class="bg-gray-100 rounded-xl p-4">
+                <p class="text-sm text-gray-500">Surface</p>
+                <p class="text-xl font-semibold">{offre.surface} m²</p>
+            </div>
+
+            <div class="bg-orange-100 rounded-xl p-4">
+                <p class="text-sm text-orange-600">Prix</p>
+                <p class="text-2xl font-bold text-orange-600">
+                    {offre.prix} €
+                </p>
+            </div>
+        </div>
     </div>
 </Layout>
