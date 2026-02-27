@@ -2,35 +2,57 @@
 import Layout from "../../layouts/Layout.astro";
 import Product from "../../components/Product.astro";
 import Card from "../../components/OffreCard.astro";
-import { getOffres } from "../../js/backend.mjs";
-const offres = await getOffres();
-console.log(offres);
+import { getOffres, byPriceBtwn } from "../../js/backend.mjs";
+let offres = await getOffres();
+
+let message = "";
+if (Astro.request.method === "POST") {
+    const data = await Astro.request.formData();
+    const minPrix = parseInt(data.get("minPrix"));
+    const maxPrix = parseInt(data.get("maxPrix"));
+
+    if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
+        offres = await byPriceBtwn(minPrix, maxPrix);
+        if (offres.length === 0) {
+            message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
+        } else {
+            message = `Liste des offres entre ${minPrix}€ et ${maxPrix}€`;
+        }
+    } else {
+        message = "Veuillez entrer des valeurs valides pour le prix.";
+    }
+} else {
+    offres = await getOffres();
+}
 ---
 
 <Layout titre="Offres">
     <h1 class="text-2xl font-bold text-center p-5">Offres</h1>
-    <button
-        id="favori-button"
-        class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer"
-        >Afficher les favoris</button
-    >
-    <a
-        id="surface-button"
-        href="/offres/surface/80"
-        class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer"
-        >Afficher les + de 80m²</a
-    >
-    <a
-        id="surface-button"
-        href="/offres/prix/100000"
-        class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer"
-        >Afficher les - de 100 000€</a
-    >
-    <a
-        id="surface-button"
-        href="/offres/add"
-        class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer">add</a
-    >
+    <div class="w-full flex justify-around">
+        <div>
+            <button
+                id="favori-button"
+                class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer"
+                >Afficher les favoris</button
+            >
+            <a
+                id="surface-button"
+                href="/offres/surface/80"
+                class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer"
+                >Afficher les + de 80m²</a
+            >
+        </div>
+        <form action="/offres" method="POST">
+            <input type="number" name="minPrix" placeholder="Prix minimum" />
+            <input type="number" name="maxPrix" placeholder="Prix maximum" />
+            <input type="submit" value="Filtrer par prix" />
+        </form>
+        <a
+            id="surface-button"
+            href="/offres/add"
+            class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer">add</a
+        >
+    </div>
     <ul
         class="flex flex-wrap justify-center items-start items-center gap-10 p-10"
     >
