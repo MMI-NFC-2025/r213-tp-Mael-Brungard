@@ -2,7 +2,11 @@
 import Layout from "../../layouts/Layout.astro";
 import Product from "../../components/Product.astro";
 import Card from "../../components/OffreCard.astro";
-import { getOffres, byPriceBtwn } from "../../js/backend.mjs";
+import {
+    getOffres,
+    byPriceBtwn, // pocketbase filtre
+    filterPriceMinMax, // js filtre
+} from "../../js/backend.mjs";
 let offres = await getOffres();
 
 let message = "";
@@ -12,7 +16,8 @@ if (Astro.request.method === "POST") {
     const maxPrix = parseInt(data.get("maxPrix"));
 
     if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
-        offres = await byPriceBtwn(minPrix, maxPrix);
+        //offres = await byPriceBtwn(minPrix, maxPrix);  //pocketbase filtre
+        offres = await filterPriceMinMax(minPrix, maxPrix, offres); // js filtre
         if (offres.length === 0) {
             message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
         } else {
@@ -43,9 +48,27 @@ if (Astro.request.method === "POST") {
             >
         </div>
         <form action="/offres" method="POST">
-            <input type="number" name="minPrix" placeholder="Prix minimum" />
-            <input type="number" name="maxPrix" placeholder="Prix maximum" />
-            <input type="submit" value="Filtrer par prix" />
+            <input
+                type="number"
+                name="minPrix"
+                min="1000"
+                max="1000000000"
+                placeholder="Prix minimum"
+                class="bg-gray-300 p-1 rounded"
+            />
+            <input
+                type="number"
+                name="maxPrix"
+                min="1000"
+                max="1000000000"
+                placeholder="Prix maximum"
+                class="bg-gray-300 p-1 rounded"
+            />
+            <input
+                type="submit"
+                value="Filtrer par prix"
+                class="bg-slate-600 rounded-lg text-white p-2 cursor-pointer"
+            />
         </form>
         <a
             id="surface-button"

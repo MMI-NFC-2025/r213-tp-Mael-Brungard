@@ -58,3 +58,12 @@ export async function addOffre(house) {
         };
     }
 }
+
+export async function getAgents() {
+    const agents = await db.collection('agent').getFullList();
+    return agents;
+}
+
+export function filterPriceMinMax(min, max, records) {
+    return records.filter((record) => record.prix > min && record.prix < max);
+}
