@@ -14,6 +14,18 @@ export async function getOffres() {
     }
 }
 
+export async function getOffresFavoris() {
+    try {
+        let data = await db.collection('maison').getFullList({
+            filter: 'favori = true',
+        });
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant la liste des maisons', error);
+        return [];
+    }
+}
+
 export async function getAgents() {
     try {
         let data = await db.collection('agent').getFullList({

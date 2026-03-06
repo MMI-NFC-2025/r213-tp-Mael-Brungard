@@ -1,7 +1,21 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/OffreCard.astro";
+import { getOffresFavoris } from "../js/backend.mjs";
+const offres = await getOffresFavoris();
 ---
 
 <Layout titre="Accueil">
 	<h1 class="text-2xl font-bold text-center p-5">Accueil</h1>
+	<div class="carousel-container">
+		<div class="carousel flex gap-10 overflow-x-auto p-10">
+			{
+				offres.map((offre) => (
+					<div class="carousel-item min-w-[350px]">
+						<Card offre={offre} />
+					</div>
+				))
+			}
+		</div>
+	</div>
 </Layout>

@@ -52,14 +52,10 @@ import favorite from "../assets/favorite.png";
 
             setFavori(offreData);
 
-            const favIcon = button.querySelector("#favorite-icon");
-            if (favIcon) {
-                favIcon.src = offreData.favori
-                    ? { favorite_filled }
-                    : { favorite };
-            }
             offreData.favori = newFavori;
             button.dataset.offre = JSON.stringify(offreData);
+
+            window.location.reload();
         });
     });
 </script>
