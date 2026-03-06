@@ -28,9 +28,7 @@ export async function getOffresFavoris() {
 
 export async function getAgents() {
     try {
-        let data = await db.collection('agent').getFullList({
-            sort: '-create',
-        });
+        let data = await db.collection('agent').getFullList();
         return data;
     } catch (error) {
         console.log('Une erreur est survenue en lisant la liste des agents', error);
