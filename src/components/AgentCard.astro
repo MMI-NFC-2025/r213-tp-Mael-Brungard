@@ -1,0 +1,14 @@
+---
+const { agent } = Astro.props;
+import PbImage from "./PbImage.astro";
+---
+
+<a href=`/agents/${agent.id}`>
+    <div
+        class=`hover:scale-105 transition duration-300 p-5 flex flex-col gap-2 text-black rounded-xl bg-gray-200`
+        id={agent.id}
+    >
+        <h2>{agent.Nom} {agent.Prenom}</h2>
+        <p>{agent.Email}</p>
+    </div>
+</a>

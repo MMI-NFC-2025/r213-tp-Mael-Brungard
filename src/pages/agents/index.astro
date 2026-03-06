@@ -1,0 +1,34 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Product from "../../components/Product.astro";
+import Card from "../../components/AgentCard.astro";
+import { getAgents } from "../../js/backend.mjs";
+const agents = await getAgents();
+
+let message = "";
+---
+
+<Layout titre="Offres">
+    <h1 class="text-2xl font-bold text-center p-5">Agents</h1>
+    <ul
+        class="flex flex-wrap justify-center items-start items-center gap-10 p-10"
+    >
+        {
+            agents.map((agent) => (
+                <li>
+                    <Card agent={agent} />
+                </li>
+            ))
+        }
+    </ul>
+    <div class="flex-col flex justify-center gap-4 items-center">
+        <h2 class="text-xl font-bold">Nos Valeurs</h2>
+        <p class="w-10/12 text-center mb-7">
+            Chez Mael Brungard, nous nous engageons à offrir des produits de
+            qualité tout en respectant l'environnement. Nous croyons en la
+            transparence, l'innovation et la satisfaction client. Notre mission
+            est de créer une expérience d'achat exceptionnelle tout en
+            contribuant positivement à la société.
+        </p>
+    </div>
+</Layout>

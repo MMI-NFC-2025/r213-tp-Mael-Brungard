@@ -1,36 +1,65 @@
 ---
 const { offre } = Astro.props;
 import PbImage from "./PbImage.astro";
+import { Image } from "astro:assets";
+import favorite_filled from "../assets/favorite_filled.png";
+import favorite from "../assets/favorite.png";
 ---
 
-<a href=`/offres/${offre.id}`>
-    <div
-        class=`offre hover:scale-105 transition duration-300 ${offre.favori ? 'bg-amber-500' : 'bg-indigo-950' } p-5 flex flex-col gap-2 text-white rounded-xl`
-        data-favori={offre.favori.toString()}
-        id={offre.id}
+<div
+    class=`offre ${offre.favori ? 'bg-amber-300' : 'bg-indigo-200' } p-5 flex flex-col gap-2 text-white rounded-xl relative`
+    data-favori={offre.favori.toString()}
+    id={offre.id}
+>
+    <div>
+        <h2 class="text-2xl">{offre.nomMaison}</h2>
+    </div>
+    <button
+        class="favoriteButton absolute top-2 right-2 p-2 text-white rounded-br-lg cursor-pointer"
+        data-offre={JSON.stringify(offre)}
     >
-        <div>
-            <h2 class="text-2xl">{offre.nomMaison}</h2>
-            <!-- <p class="font-bold">{offre.adresse}</p> -->
-        </div>
-        <!-- <div class="">
-            <p>Nombre de chambre : {offre.nbChambres}</p>
-            <p>Nombre de Salle de bain : {offre.nbSdb}</p>
-        </div> -->
+        <Image
+            id="favorite-icon"
+            inferSize={true}
+            src={offre.favori ? favorite_filled : favorite}
+            alt="Favorite Icon"
+            class="w-8 h-8"
+        />
+    </button>
+    <a href=`/offres/${offre.id}`>
         <PbImage
             record={offre}
             imageField={offre.images[0]}
             width={300}
             height={300}
+            classlist="hover:scale-102 transition duration-300 object-cover h-100 object-bottom rounded-xl"
         />
-        <!-- <div class="flex items-center gap-2">
-            <input
-                type="checkbox"
-                class="checkbox h-4 w-4"
-                checked={offre.favori}
-                data-id={offre.id}
-            />
-            <p class="font-bold">Favoris</p>
-        </div> -->
-    </div>
-</a>
+    </a>
+</div>
+
+<script>
+    //@ts-nocheck
+    import { setFavori } from "../js/backend.mjs";
+
+    import favorite_filled from "../assets/favorite_filled.png";
+    import favorite from "../assets/favorite.png";
+    const favoriteButtons = document.querySelectorAll(".favoriteButton");
+
+    favoriteButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const offreData = JSON.parse(button.dataset.offre || "{}");
+            const newFavori = !offreData.favori;
+
+            setFavori(offreData);
+
+            const favIcon = button.querySelector("#favorite-icon");
+            if (favIcon) {
+                favIcon.src = offreData.favori
+                    ? { favorite_filled }
+                    : { favorite };
+            }
+            offreData.favori = newFavori;
+            button.dataset.offre = JSON.stringify(offreData);
+        });
+    });
+</script>
